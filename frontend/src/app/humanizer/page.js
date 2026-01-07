@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import ProtectedRoute from "../../components/ProtectedRoute";
+import { useAuth } from "../../context/AuthContext";
 
-export default function Humanizer() {
+function HumanizerContent() {
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
   const [activeTab, setActiveTab] = useState("humanize");
   const [isProcessing, setIsProcessing] = useState(false);
   const [detectionResult, setDetectionResult] = useState(null);
   const [copied, setCopied] = useState(false);
+  const { user } = useAuth();
 
   const handleDetect = async () => {
     if (!inputText.trim()) return;
@@ -82,6 +85,22 @@ export default function Humanizer() {
       <section className="py-12 md:py-16">
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-full text-sm text-green-700 mb-4">
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              Signed in as {user?.email}
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               AI Humanizer Tool
             </h1>
@@ -413,5 +432,13 @@ export default function Humanizer() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function Humanizer() {
+  return (
+    <ProtectedRoute>
+      <HumanizerContent />
+    </ProtectedRoute>
   );
 }
