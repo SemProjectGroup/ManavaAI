@@ -329,7 +329,7 @@ If you use this model, please cite:
   year = {{2025}},
   publisher = {{GitHub/HuggingFace}},
   howpublished = {{\\url{{https://your-repo-url}}}}
-}
+}}
 ```
 
 ## License
