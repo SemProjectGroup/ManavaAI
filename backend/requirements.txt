@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+requests
+groq
+google-generativeai
+transformers
+torch
+peft
+sacrebleu
+rouge_score
+textstat
+wandb
+python-multipart
+# Optional for quantization
+bitsandbytes
+accelerate
