@@ -40,22 +40,19 @@ function HumanizerContent() {
 
   const handleHumanize = async () => {
     if (!inputText.trim()) return;
-
     setIsProcessing(true);
-    setDetectionResult(null);
-    setOutputText("");
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    setOutputText(
-      `Here is the humanized version of your text:\n\n"${inputText.substring(
-        0,
-        100
-      )}${
-        inputText.length > 100 ? "..." : ""
-      }"\n\nThe text has been transformed to sound more natural and human-like. Key changes include varied sentence structures, natural transitions, and conversational tone adjustments.\n\nAI Detection Score: Reduced from 85% to 12%\nReadability: Improved\nOriginal meaning: Preserved`
-    );
-
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/humanize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: inputText })
+      });
+      const data = await response.json();
+      setOutputText(data.output_text + "\n\nHuman Score: " + data.score + "%");
+    } catch (error) {
+      setOutputText("Backend Error: Make sure your Python main.py is running!");
+    }
     setIsProcessing(false);
   };
 
